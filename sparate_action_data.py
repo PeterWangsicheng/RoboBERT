@@ -23,7 +23,6 @@ def separate_data(dataset_name="ABCD_D", separate_mode="language"):
             ).item()["info"]["indx"]
 
     dataset_wo_image = dict()
-    ep_start_end_ids = ep_start_end_ids
     ids_len = len(ep_start_end_ids)
     for id, start_end_pair in enumerate(ep_start_end_ids):
         start_idx, end_idx = start_end_pair[0], start_end_pair[1]
