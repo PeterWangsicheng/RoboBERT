@@ -170,21 +170,39 @@ class CalvinDataset(Dataset):
         self.vg_enhence = None
 
         if training_mode == "first":
-            self.vs_enhence = transforms.Compose(
-                [
-                    #AddResizeCrop(size=200, max_crop_scale=0.85 ,p=0.9),
-                    #AddRotation(max_angle=15, p=0.9),
-                    AddPepperNoise(0.95, p=0.8),
-                ]
-            )
-
-            self.vg_enhence = transforms.Compose(
-                [
-                    #AddResizeCrop(size=84, max_crop_scale=0.85 ,p=0.9),
-                    #AddRotation(max_angle=15, p=0.9),
-                    AddPepperNoise(0.95, p=0.8),
-                ]
-            )
+            if dataset_name == "ABCD_D":
+                # Some affine augmentations should be applied during the 1st stage to get a better performance for ABCD_D
+                self.vs_enhence = transforms.Compose(
+                    [
+                        AddResizeCrop(size=200, max_crop_scale=0.85 ,p=0.9),
+                        AddRotation(max_angle=15, p=0.9),
+                        AddPepperNoise(0.95, p=0.8),
+                    ]
+                )
+    
+                self.vg_enhence = transforms.Compose(
+                    [
+                        AddResizeCrop(size=84, max_crop_scale=0.85 ,p=0.9),
+                        AddRotation(max_angle=15, p=0.9),
+                        AddPepperNoise(0.95, p=0.8),
+                    ]
+                )
+            else:
+                self.vs_enhence = transforms.Compose(
+                    [
+                        AddResizeCrop(size=200, max_crop_scale=0.85 ,p=0.9),
+                        #AddRotation(max_angle=15, p=0.9),
+                        #AddPepperNoise(0.95, p=0.8),
+                    ]
+                )
+    
+                self.vg_enhence = transforms.Compose(
+                    [
+                        AddResizeCrop(size=84, max_crop_scale=0.85 ,p=0.9),
+                        #AddRotation(max_angle=15, p=0.9),
+                        #AddPepperNoise(0.95, p=0.8),
+                    ]
+                )
 
         elif training_mode == "second":
             self.vs_enhence = transforms.Compose(
